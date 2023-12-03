@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" href="https://raw.githubusercontent.com/EddieChen324/CS9053/main/icon2.png"/>
+	<link rel="icon" href="https://raw.githubusercontent.com/EddieChen324/CS9053/master/src/main/resources/static/img/icon.png"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 	<link rel="stylesheet" th:href="@{/css/global.css}" />
 	<link rel="stylesheet" th:href="@{/css/login.css}" />
@@ -58,12 +58,17 @@
 		<div class="main">
 			<div class="container pl-5 pr-5 pt-3 pb-3 mt-3 mb-3">
 				<h3 class="text-center text-info border-bottom pb-3">Register</h3>
-				<form class="mt-5">
+				<!--表单使用POST方法提交，th:action 表明提交的地址是/register-->
+				<form class="mt-5" method="post" th:action="@{/register}">
 					<div class="form-group row">
 						<label for="username" class="col-sm-2 col-form-label text-right">Account:</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="username" placeholder="Please enter your account" required>
-							<div class="invalid-feedback">
+							<!-- input元素动态显示 如果有报错信息则invalid name属性可以与对象同名的属性自动对应-->
+							<input type="text"
+								   th:class="|form-control ${usernameMsg!=null?'is-invalid':''}|"
+								   th:value="${user!=null?user.username:''}"
+								   id="username" name="username" placeholder="Please enter your account" required>
+							<div class="invalid-feedback" th:text="${usernameMsg}">
 								This account already exists!
 							</div>
 						</div>
@@ -71,8 +76,11 @@
 					<div class="form-group row mt-4">
 						<label for="password" class="col-sm-2 col-form-label text-right">Password:</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control" id="password" placeholder="Please enter your password" required>
-							<div class="invalid-feedback">
+							<input type="password"
+								   th:class="|form-control ${passwordMsg!=null?'is-invalid':''}|"
+								   th:value="${user!=null?user.password:''}"
+								   id="password" name="password" placeholder="Please enter your password" required>
+							<div class="invalid-feedback" th:text="${passwordMsg}">
 								The password cannot be less than 8 characters!
 						</div>
 						</div>
@@ -80,7 +88,9 @@
 					<div class="form-group row mt-4">
 						<label for="confirm-password" class="col-sm-2 col-form-label text-right">Confirm Password:</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control" id="confirm-password" placeholder="Please re-enter the password" required>
+							<input type="password" class="form-control"
+								   th:value="${user!=null?user.password:''}"
+								   id="confirm-password" placeholder="Please re-enter the password" required>
 							<div class="invalid-feedback">
 								The passwords entered do not match!
 							</div>
@@ -89,8 +99,11 @@
 					<div class="form-group row">
 						<label for="email" class="col-sm-2 col-form-label text-right">Email:</label>
 						<div class="col-sm-10">
-							<input type="email" class="form-control" id="email" placeholder="Please enter your email" required>
-							<div class="invalid-feedback">
+							<input type="email"
+								   th:class="|form-control ${emailMsg!=null?'is-invalid':''}|"
+								   th:value="${user!=null?user.email:''}"
+								   id="email" name="email" placeholder="Please enter your email" required>
+							<div class="invalid-feedback" th:text="${emailMsg}">
 								This email is already registered!
 							</div>
 						</div>

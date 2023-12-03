@@ -1,8 +1,10 @@
 package com.community;
 
 import com.community.dao.DiscussPostMapper;
+import com.community.dao.LoginTicketMapper;
 import com.community.dao.UserMapper;
 import com.community.entity.DiscussPost;
+import com.community.entity.LoginTicket;
 import com.community.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class MapperTests {
 
     @Autowired
     private DiscussPostMapper discussPostMapper;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     @Test
     public void testSelectUser() {
@@ -70,5 +75,22 @@ public class MapperTests {
 
         int count = discussPostMapper.selectDiscussPostRows(149);
         System.out.println(count);
+    }
+
+    @Test
+    public void insertTicket() {
+        LoginTicket ticket = new LoginTicket();
+        ticket.setUserId(101);
+        ticket.setStatus(0);
+        ticket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 * 10));
+        ticket.setTicket("abc");
+
+        loginTicketMapper.insertLoginTicket(ticket);
+    }
+
+    @Test
+    public void selectTicket() {
+        LoginTicket ticket = loginTicketMapper.selectByTicket("abc");
+        System.out.println(ticket);
     }
 }
