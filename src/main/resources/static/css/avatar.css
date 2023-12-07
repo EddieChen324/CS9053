@@ -1,0 +1,3 @@
+.avatar {
+    object-fit: cover; /* 确保图片填充而不失真 */
+}

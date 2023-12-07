@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 	<link rel="stylesheet" href="@{/css/global.css}" />
 	<link rel="stylesheet" href="@{/css/login.css}" />
-	<title>牛客网-登录</title>
+	<title>Log In</title>
 </head>
 <body>
 	<div class="nk-container">
@@ -62,7 +62,7 @@
 		<!-- 内容 -->
 		<div class="main">
 			<div class="container pl-5 pr-5 pt-3 pb-3 mt-3 mb-3">
-				<h3 class="text-center text-info border-bottom pb-3">登&nbsp;&nbsp;录</h3>
+				<h3 class="text-center text-info border-bottom pb-3">Log&nbsp;&nbsp;In</h3>
 				<form class="mt-5" method="post" th:action="@{/login}">
 					<div class="form-group row">
 						<label for="username" class="col-sm-2 col-form-label text-right">Account:</label>
@@ -105,7 +105,7 @@
 							<input type="checkbox" id="remember-me" name="rememberMe"
 								   th:checked="${param.rememberMe}">
 							<label class="form-check-label" for="remember-me">Remember me</label>
-							<a href="forget.html" class="text-danger float-right">Forgot password?</a>
+<!--							<a href="forget.html" class="text-danger float-right">Forgot password?</a>-->
 						</div>
 					</div>				
 					<div class="form-group row mt-4">

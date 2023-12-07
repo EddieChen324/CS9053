@@ -21,33 +21,33 @@
 							<li class="nav-item ml-3 btn-group-vertical">
 								<a class="nav-link" th:href="@{/index}">Home</a>
 							</li>
-							<li class="nav-item ml-3 btn-group-vertical">
-								<a class="nav-link position-relative" href="site/letter.html">Messages<span class="badge badge-danger">12</span></a>
+							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser!= null}">
+								<a class="nav-link position-relative" th:href="@{/{id}/letter (id=${loginUser.id})}">Messages<span class="badge badge-danger" th:text="${totalMessage}">12</span></a>
 							</li>
-							<li class="nav-item ml-3 btn-group-vertical">
+							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser== null}">
 								<a class="nav-link" th:href="@{/register}">Register</a>
 							</li>
-							<li class="nav-item ml-3 btn-group-vertical">
+							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser== null}">
 								<a class="nav-link" th:href="@{/login}">Login</a>
 							</li>
-							<li class="nav-item ml-3 btn-group-vertical dropdown">
+							<li class="nav-item ml-3 btn-group-vertical dropdown" th:if="${loginUser!= null}">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<img src="http://images.nowcoder.com/head/1t.png" class="rounded-circle" style="width:30px;"/>
+									<img th:src="${loginUser.headerUrl}" class="rounded-circle" style="width:30px;"/>
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item text-center" href="site/profile.html">Profile</a>
-									<a class="dropdown-item text-center" href="site/setting.html">Account Settings</a>
+									<a class="dropdown-item text-center" th:href="@{/profile (userId=${loginUser.id})}">Profile</a>
+									<a class="dropdown-item text-center" th:href="@{/user/setting}">Account Settings</a>
 									<a class="dropdown-item text-center" th:href="@{/logout}">Log out</a>
-<!--									<div class="dropdown-divider"></div>-->
-<!--									<span class="dropdown-item text-center text-secondary">nowcoder</span>-->
+									<div class="dropdown-divider"></div>
+									<span class="dropdown-item text-center text-secondary" th:utext="${loginUser.username}">nowcoder</span>
 								</div>
 							</li>
 						</ul>
 						<!-- 搜索 -->
-						<form class="form-inline my-2 my-lg-0" action="site/search.html">
-							<input class="form-control mr-sm-2" type="search" aria-label="Search" />
-							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-						</form>
+<!--						<form class="form-inline my-2 my-lg-0" action="site/search.html">-->
+<!--							<input class="form-control mr-sm-2" type="search" aria-label="Search" />-->
+<!--							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>-->
+<!--						</form>-->
 					</div>
 				</nav>
 			</div>
@@ -62,11 +62,11 @@
 						<li class="nav-item">
 							<a class="nav-link active" href="#">Newest</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Hottest</a>
-						</li>
+<!--						<li class="nav-item">-->
+<!--							<a class="nav-link" href="#">Hottest</a>-->
+<!--						</li>-->
 					</ul>
-					<button type="button" class="btn btn-primary btn-sm position-absolute rt-0" data-toggle="modal" data-target="#publishModal">Publish</button>
+					<button type="button" class="btn btn-primary btn-sm position-absolute rt-0" data-toggle="modal" data-target="#publishModal" th:if="${loginUser!=null}">Publish</button>
 				</div>
 				<!-- 弹出框 -->
 				<div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" aria-hidden="true">
@@ -114,21 +114,21 @@
 				<!-- 帖子列表 -->
 				<ul class="list-unstyled">
 					<li class="media pb-3 pt-3 mb-3 border-bottom" th:each="map:${discussPosts}">
-						<a href="site/profile.html">
+						<a th:href="@{/profile (userId=${map.user.id})}">
 							<img th:src="${map.user.headerUrl}" class="mr-4 rounded-circle user-header" alt="用户头像">
 						</a>
 						<div class="media-body">
 							<h6 class="mt-0 mb-3">
-								<a href="#" th:utext="${map.post.title}">备战春招，面试刷题跟他复习，一个月全搞定！</a>
+								<a th:href="@{/post (id=${map.post.id})}" th:utext="${map.post.title}">备战春招，面试刷题跟他复习，一个月全搞定！</a>
 								<span class="badge badge-secondary bg-primary" th:if="${map.post.type==1}">Pin</span>
 								<span class="badge badge-secondary bg-danger" th:if="${map.post.status==1}">Highlights</span>
 							</h6>
 							<div class="text-muted font-size-12">
-								<u class="mr-3" th:utext="${map.user.username}">寒江雪</u> Posted on <b th:text="${map.post.createTime}">2019-04-15 15:32:18</b>
+								<u class="mr-3" th:utext="${map.user.username}">寒江雪</u> Posted on <b th:text="${#dates.format(map.post.createTime, 'MM-dd-yyyy HH:mm')}">2019-04-15 15:32:18</b>
 								<ul class="d-inline float-right">
 									<li class="d-inline ml-2">Like 11</li>
 									<li class="d-inline ml-2">|</li>
-									<li class="d-inline ml-2">Comments 7</li>
+									<li class="d-inline ml-2" th:text="|Comments ${map.post.commentCount}|">Comments 7</li>
 								</ul>
 							</div>
 						</div>

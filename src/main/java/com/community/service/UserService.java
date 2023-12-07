@@ -43,6 +43,7 @@ public class UserService implements CommunityConstant {
         return userMapper.selectById(id);
     }
 
+
     public Map<String, Object> register(User user) {
         // Map主要是用于Controller方便逻辑判断 如果为空说明成功
         Map<String, Object> map = new HashMap<>();
@@ -82,7 +83,7 @@ public class UserService implements CommunityConstant {
         user.setType(0);
         user.setStatus(0);
         user.setActivationCode(CommunityUtil.generateUUID());
-        user.setHeaderUrl(String.format("http://image.nowcoder.com/head/%dt.png", new Random().nextInt(1000)));
+        user.setHeaderUrl(String.format("http://images.nowcoder.com/head/%dt.png", new Random().nextInt(1000)));
         user.setCreateTime(new Date());
         userMapper.insertUser(user);
 
@@ -153,5 +154,13 @@ public class UserService implements CommunityConstant {
 
     public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket, 1);
+    }
+
+    public LoginTicket findLoginTicket(String ticket) {
+        return loginTicketMapper.selectByTicket(ticket);
+    }
+
+    public void updateHeader(int userId, String headUrl) {
+        userMapper.updateHeader(userId, headUrl);
     }
 }

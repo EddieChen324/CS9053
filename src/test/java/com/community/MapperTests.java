@@ -1,16 +1,14 @@
 package com.community;
 
-import com.community.dao.DiscussPostMapper;
-import com.community.dao.LoginTicketMapper;
-import com.community.dao.UserMapper;
-import com.community.entity.DiscussPost;
-import com.community.entity.LoginTicket;
-import com.community.entity.User;
+import com.alibaba.fastjson.JSONObject;
+import com.community.dao.*;
+import com.community.entity.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +24,12 @@ public class MapperTests {
 
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private LetterMapper letterMapper;
 
     @Test
     public void testSelectUser() {
@@ -93,4 +97,17 @@ public class MapperTests {
         LoginTicket ticket = loginTicketMapper.selectByTicket("abc");
         System.out.println(ticket);
     }
+
+//    @Test
+//    public void selectNotices() {
+//        List<Letter> list = letterMapper.selectNotices(111, "comment");
+//        if (list != null) {
+//            for (Letter letter : list) {
+//                JSONObject jsonObject = JSONObject.parseObject(letter.getContent());
+//                int postId = jsonObject.getIntValue("postId");
+//                System.out.println(postId);
+//            }
+//        }
+//    }
+
 }

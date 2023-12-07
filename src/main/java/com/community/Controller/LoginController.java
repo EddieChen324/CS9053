@@ -39,7 +39,7 @@ public class LoginController implements CommunityConstant {
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
-    //点击进入注册页面
+    //点击进入注册页面    path这里与th:href一致
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String getRegisterPage() {
         return "/site/register";
@@ -90,6 +90,7 @@ public class LoginController implements CommunityConstant {
 
         //验证码存入session
         session.setAttribute("kaptcha", text);
+        //对http请求的回复
         //将图片输出给浏览器
         response.setContentType("image/png");
         try {
@@ -113,6 +114,7 @@ public class LoginController implements CommunityConstant {
         //检查账号 密码
         int expiredSeconds = rememberMe ? REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;
         Map<String, Object> map = userService.login(username, password, expiredSeconds);
+        //如果有了登录凭证 就存入cookie 方便验证用户身份和状态
         if (map.containsKey("ticket")) {
             Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
             cookie.setPath(contextPath);
@@ -128,9 +130,9 @@ public class LoginController implements CommunityConstant {
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
-    public String logout(@CookieValue("ticket") String tiket) {
+    public String logout(@CookieValue("ticket") String ticket) {
         //注销ticket
-        userService.logout(tiket);
+        userService.logout(ticket);
         //重定向到登陆界面
         return "redirect:/login";
     }
